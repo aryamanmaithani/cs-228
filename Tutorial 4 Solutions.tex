@@ -28,23 +28,22 @@
 \begin{center}
 \textbf{Problem Set 4}
 \end{center}
-Notation: $\mathbb{N} = \{1,\;2,\;3,\ldots\}$ denotes the set of positive integers.
+Notation: $\mathbb{N} = \{0,\;1,\;2,\;\ldots\}$ denotes the set of nonnegative integers.
 
 \hrulefill
 
 1. Given: $\varphi = \forall x \exists y R(x, y) \wedge \exists y \forall x \neg R(x, y).$ \\~\\
 $\varphi$ is satisfiable over the following structure: $\mathcal{A} = (\mathbb{N}, R^\mathcal{A}),$ where $R^\mathcal{A} = \{(x, y) \in \mathbb{N}^2 : y = x + 1\}.$ Note that $\mathbb{N}$ is infinite and countable.\\
 It is clear that given any $x,$ if we choose $y = x+1,$ then $y \in \mathbb{N}$ and we have that $R(x, y).$\\
-Also, given $y = 1 \in \mathbb{N},$ and given any $x \in \mathbb{N},$ it not true that $R(x, 1).$ (There is no natural number $n$ such that $n + 1 = 1.$)\\~\\
-Another example could have been to take any infinite countable set $X$ as universe and choose a particular element $x_0 \in X$ and say that $R^\mathcal{A} = \{(x, y) \in X^2 : y = x_0\}.$ That is, any element is related to $x_0$ and only to $x_0.$
+Also, given $y = 0 \in \mathbb{N},$ and given any $x \in \mathbb{N},$ it not true that $R(x, 0).$ (There is no natural number $n$ such that $n + 1 = 0.$)
 
 \hrulefill
 
 2.\\
-(i) $\varphi_B(x, y) = \big(\forall z(P(z, x) \leftrightarrow P(z, y))\big) \wedge \neg F(x).$\\
-(All parents of $x$ are parents of $y$ and vice-versa and $x$ is not a female.)\\
+(i) $\varphi_B(x, y) = \big(\forall z[P(z, x) \leftrightarrow P(z, y)]\big) \wedge \neg F(x) \wedge \neg (x = y).$\\
+(All parents of $x$ are parents of $y$ and vice-versa and $x$ is not a female. Moreover, $x$ is not a brother of $x.$)\\
 (ii) $\varphi_A(x, y) = F(x) \wedge \bigg(\forall z\big(P(z, y) \to \exists w [P(z, w) \wedge P(w, y)]\big)\bigg)$\\
-($x$ is a female and given any parent of $x,$ that parent is the grandparent of $y.$)\\
+($x$ is a female and given any parent of $x,$ that parent is the grandparent of $y.$ I have assumed aunt to either be father's sister or mother's sister.)\\
 (iii) $\varphi_C(x, y) = \forall g \forall p\big([P(g, p) \wedge P(p, x)] \to [\exists p' (P(g, p') \wedge P(p', y) \wedge \neg p = p')]\big).$\\
 (Note that I've assumed first cousin.)\\
 (iv) $\varphi_O(x) = \forall p \forall x'(P(p, x) \to x = x').$\\
@@ -53,8 +52,16 @@ Another example could have been to take any infinite countable set $X$ as univer
 
 \hrulefill
 
-3.
-\[\forall n[(\operatorname{Even}(n) \wedge \neg \exists z (\operatorname{Zero}(z) \wedge z + 2 = n)) \to (\exists p \exists q(\operatorname{Prime}(p) \wedge \operatorname{Prime}(q) \wedge n = p + q))].\]
+3.\\
+(i) $\operatorname{Zero}(a) = \forall z[a + z = z] \equiv \exists z[a + z = z].$\\
+(ii) $\operatorname{One}(a) = \forall z[a \times z = z].$\\
+Note that in this case, the above is not equivalent to the formula obtained for replacing `$\forall$' with `$\exists$.' \hfill (Why?)\\
+(iii) $\operatorname{Even}(a) = \exists z[z + z = a].$\\
+(iv) $\operatorname{Odd}(a) = \neg \operatorname{Even}(a).$\\
+(v) $\operatorname{Prime}(a) = \neg \operatorname{One}(a) \wedge \forall x\forall y[(x \times y = a) \to (\operatorname{One}(x) \wedge \operatorname{One}(y))]$\\
+(vi) Before tackling Goldbach's conjecture, let us first define the following formula:\\
+$\operatorname{Two(a)} = \exists z[\operatorname{One}(z) \wedge z + z = a].$
+\[\forall n[(\operatorname{Even}(n) \wedge \neg \operatorname{Zero}(n) \wedge \neg \operatorname{Two}(n)) \to (\exists p \exists q(\operatorname{Prime}(p) \wedge \operatorname{Prime}(q) \wedge n = p + q))].\]
 
 \hrulefill
 
@@ -110,7 +117,7 @@ For the latter sentence, choose $x = 1.$ For $y = 1,$ choose $z = 1$ and for $y 
 
 8. (a) $\varphi_{45} = (\exists^{\ge45}x (x = x)) \wedge \neg(\exists^{\ge46}x(x \neq x)).$\\
 
-(b) $\forall x_1 \forall x_2 \ldots \forall x_{n-1} \exists x_n (x_n = x_n \wedge x_n \neq x_{n-1} \wedge x_n \neq x_{n-2} \wedge \cdots \wedge x_n \neq x_2 \wedge x_n \neq x_1).$\\
+(b) $\forall x_1 \forall x_2 \ldots \forall x_{n-1} \exists x_n \big[(x_n = x_n) \wedge (x_n \neq x_1) \wedge (x_n \neq x_{2}) \wedge \cdots \wedge (x_n \neq x_{n-1})\big].$\\
 
 
 \hrulefill
