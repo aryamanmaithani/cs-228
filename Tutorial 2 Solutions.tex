@@ -1,0 +1,140 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage[inline]{enumitem}
+\usepackage{cancel}
+\usepackage{soul}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{defn}{Definition}
+
+\setlength\parindent{0pt}
+
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+
+\title{CS 228: Tutorial Solutions}
+\author{Aryaman Maithani}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+\textbf{Problem Set 2}
+\end{center}
+1. $\mathcal{P}$ is not consistent. \\
+\emph{Proof.} For any $p,$ the following are well-formed formulae: $p \vee \neg p$ and $\neg(p \vee\neg p).$ Let $A$ be the former and $B$ be the latter. By hypothesis, $A \to B$ is an axiom. We now derive $\perp$ using this.
+\begin{center}
+	\begin{tabular}{l l l}
+	1. & $p \vee \neg p \to \neg(p \vee \neg p)$ & Axiom\\
+	2. & $p \vee \neg p$ & LEM\\
+	3. & $\neg(p \vee \neg p)$ & MP 1, 2\\
+	4. & $\perp$ & $\perp$ i 2, 3
+	\end{tabular}
+\end{center}
+Thus, by definition, $\mathcal{P}$ is inconsistent.
+
+\hrulefill
+
+2. (a)\\
+(i) To show that $\mathcal{A} = \{\neg, \wedge\}$ is an adequate set of formulae. \\
+Note that $A\vee B \equiv \neg(\neg A \wedge \neg B).$ Thus, we can construct $\vee$ using $\mathcal{A}.$ \\
+Also, $A \to B \equiv \neg A \vee B.$ \\
+As we had already constructed $\vee$ using $\mathcal{A},$ we are done.\\~\\
+(ii) To show that $\mathcal{B} = \{\neg, \to\}$ is an adequate set of formulae.\\
+Note that $A\vee B \equiv \neg A \to B.$ Thus, we can construct $\vee$ using $\mathcal{B}.$ \\
+Also, $A \wedge B\equiv \neg(\neg A\vee \neg B).$ \\
+As we had already constructed $\vee$ using $\mathcal{B},$ we are done.\\~\\
+(iii) To show that $\mathcal{C} = \{\to, \perp\}$ is an adequate set of formulae.\\
+Note that $\neg A \equiv A \to \perp.$ Thus, we can construct $\neg$ using $\mathcal{C}.$\\
+The result now follows from what we proved earlier as we can construct everything else using $\perp$ and $\neg.$ \\~\\
+%
+2. (b)\\
+We shall prove the statement by way of contradiction. Suppose not. That is, $C$ is adequate and $\neg \not\in C$ and $\perp\not\in C.$\\
+Let us look at the set of all formulae $S$ that contain only $a$ as a propositional atom and connectives from $C.$ By hypothesis, $C$ is adequate, that is, for every formula, there is an equivalent formula with only connectives from $C.$ In particular, an equivalent of the formula $\neg a$ should be in $S.$ Note that $\neg a$ evaluates to $F$ whenever $a$ is $T.$\\~\\
+\textbf{Claim:} Given any formula $\varphi \in S,$ it must evaluate to $T$ whenever $a$ is $T.$ This will show that $C$ is not adequate (as it could not possibly have $\neg a$) and complete our proof.\\~\\
+\emph{Proof.} We shall prove this by inducting on the number $n$ of connectives in $\varphi.$\\
+Base case. $n = 0.$ The only such formula is $\varphi = a.$ For this, the claim holds trivially.\\
+Inductive hypothesis. Given a formula $\varphi$ such that it has $n$ or fewer connectives, $\varphi$ evaluates to $T$ when $a$ is $T.$\\
+Inductive step. Suppose $\varphi$ is a formula with $n+1$ connectives. Then, $\varphi$ can be written as $\varphi_1 \circ \varphi_2$ where $\circ$ is some connective from $C$ and $\varphi_1,\;\varphi_2$ are formulae in $S$ with at most $n$ connectives. By inductive hypothesis, $\varphi_1$ and $\varphi_2$ both evaluate to $T$ whenever $a$ is $T.$ Let us now consider the following partial truth table.\\
+\begin{center}
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+	\hline
+	$a$ & $\varphi_1$ & $\varphi_2$ & $\varphi_1 \wedge \varphi_2$ & $\varphi_1 \vee \varphi_2$ & $\varphi_1 \to \varphi_2$ & $\varphi_2 \to \varphi_1$ \\
+	\hline
+	$T$ & $T$ & $T$ & $T$ & $T$ & $T$ & $T$ \\
+	\hline
+\end{tabular}
+
+\end{center}
+
+Thus, it is clear that no matter what $\circ$ is, $\varphi$ will always evaluate to $T$ whenever $a$ is $T.$\\
+This completes our proof of the claim, which in turns completes the complete proof.
+
+\hrulefill
+\newpage
+
+3. We show that $\{\downarrow\}$ is adequate by observing the following:
+\begin{enumerate}[nosep] 
+	\item $\neg A \equiv A\downarrow A$
+	\item $A \wedge B \equiv \neg(A \downarrow B)$
+	\item $A \vee B \equiv \neg(\neg A \wedge \neg B)$
+\end{enumerate}
+Hence, proved.
+
+\hrulefill
+
+4. We show that $\{\oplus\}$ is not adequate by way of contradiction. Assume that $\{\oplus\}$ were adequate. Then, we should have been able to write $A \wedge B$ in terms of $A, B$ and $\oplus.$ We show that this is not possible using the following claim.\\~\\
+\textbf{Claim:} Let $\varphi$ be any formula made using $A, B$ and $\oplus.$ Then, the truth table of $\varphi$ has an even number of $T$s.\\
+\emph{Proof.} We prove the claim using induction. We shall induct on the number $n$ of $\oplus$s in the formula.\\
+Base case. $n = 0.$ The only such formulae are $A$ and $B.$
+\begin{center}
+
+\begin{tabular}{|c|c|c|c|}
+	\hline
+	$A$ & $B$ & $A$ & $B$ \\
+	\hline
+	$F$ & $F$ & $F$ & $F$ \\
+	\hline
+	$F$ & $T$ & $F$ & $T$ \\
+	\hline
+	$T$ & $F$ & $T$ & $F$ \\
+	\hline
+	$T$ & $T$ & $T$ & $T$ \\
+	\hline
+\end{tabular}
+
+\end{center}
+Thus, we have proven the base case.\\
+Inductive hypothesis. Let $\varphi$ be any formula using $A, B$ and at most $n$ $\oplus$s. Then, $\varphi$ has an even number of $T$s in its truth table.\\
+Inductive step. Let $\varphi$ be a formula with $n+1$ $\oplus$s. As $\varphi$ is built using only $\oplus$s, we can write $\varphi$ as $\varphi_1 \oplus \varphi_2$ for some formulae $\varphi_1$ and $\varphi_2$ which have at most $n$ $\oplus$s. By induction hypothesis, $\varphi_1$ has $2a$ $T$s in its truth table and $\varphi_2$ has $2b$ $T$s for some integers $a$ and $b.$\\
+Let $i$ denote the number of lines in which a $T$ of $\varphi_1$ is paired with an $F$ of $\varphi_2$ and let $j$ denote the number of lines in which an $F$ of $\varphi_1$ is paired with a $T$ of $\varphi_2.$ Then, $i + j$ is the total number of $T$s in the truth table of $\varphi.$\\
+Now note that the remaining $(2a - i)$ $T$s of $\varphi_1$ were paired with the remaining $(2b - j)$ $T$s of $\varphi_2.$ Thus, $2a - i = 2b - j.$ Simple algebra gives us that $i + j = 2(a - b + j),$ which is even, as desired.\\
+This proves our claim.\\
+The claim then completes the proof as $A \wedge B$ has an odd number of $T$ in its truth table and therefore, cannot possibly be written using just $\oplus.$
+
+\hrulefill
+
+5. First we show that consistency implies satisfiability.\\
+If $\mathcal{F}$ is consistent, then $\mathcal{F} \not\vdash \perp,$ by definition.\\
+As propositional logic is sound and complete, this means that $\mathcal{F} \not\models \perp.$\\
+What the above means is that there is an assignment $\alpha$ such that $\alpha \models \mathcal{F}$ and $\alpha \not\models\perp.$ The latter is always true anyway but the existence of an $\alpha$ such that $\alpha \models \mathcal{F}$ shows that $\mathcal{F}$ is satisfiable.\\~\\
+Conversely, assume that $\mathcal{F}$ is satisfiable. Then there exists an assignment $\alpha$ such that $\alpha \models \mathcal{F},$ by definition. As $\perp$ is never true, $\alpha \not \models \perp.$ Thus, we have it that $\mathcal{F}\not\models \perp.$ (Since there exists at least one assignment such that $\mathcal{F}$ is true but $\perp$ is not.)\\
+As propositional logic is sound and complete, $\mathcal{F} \not \vdash \perp.$ \\
+Thus, $\mathcal{F}$ is consistent, by definition.
+
+\hrulefill
+
+6. %(a) Since $\mathcal{F}$ is given to be inconsistent
+(b) We are given that $\mathcal{F} \vdash \perp.$ \hfill (Definition of inconsistency.)\\
+Also, $\mathcal{F} = \mathcal{F}_G \cup \{G\}.$ Thus, $\quad \mathcal{F}_G, \;G \vdash \perp.$\\
+The above is the same as $\mathcal{F}_G \vdash G \to \perp.$ \hfill (Done in class.)\\
+As $G \to \perp \equiv \neg G,$ we get that $\mathcal{F}_G \vdash \neg G.$
+\end{document}

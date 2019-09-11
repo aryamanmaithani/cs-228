@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage[inline]{enumitem}
+\usepackage{cancel}
+\usepackage{soul}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{defn}{Definition}
+
+\setlength\parindent{0pt}
+
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+
+\title{CS 228: Tutorial Solutions}
+\author{Aryaman Maithani}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+\textbf{Problem Set 4}
+\end{center}
+Notation: $\mathbb{N} = \{1,\;2,\;3,\ldots\}$ denotes the set of positive integers.
+
+\hrulefill
+
+1. Given: $\varphi = \forall x \exists y R(x, y) \wedge \exists y \forall x \neg R(x, y).$ \\~\\
+$\varphi$ is satisfiable over the following structure: $\mathcal{A} = (\mathbb{N}, R^\mathcal{A}),$ where $R^\mathcal{A} = \{(x, y) \in \mathbb{N}^2 : y = x + 1\}.$ Note that $\mathbb{N}$ is infinite and countable.\\
+It is clear that given any $x,$ if we choose $y = x+1,$ then $y \in \mathbb{N}$ and we have that $R(x, y).$\\
+Also, given $y = 1 \in \mathbb{N},$ and given any $x \in \mathbb{N},$ it not true that $R(x, 1).$ (There is no natural number $n$ such that $n + 1 = 1.$)\\~\\
+Another example could have been to take any infinite countable set $X$ as universe and choose a particular element $x_0 \in X$ and say that $R^\mathcal{A} = \{(x, y) \in X^2 : y = x_0\}.$ That is, any element is related to $x_0$ and only to $x_0.$
+
+\hrulefill
+
+2.\\
+(i) $\varphi_B(x, y) = \big(\forall z(P(z, x) \leftrightarrow P(z, y))\big) \wedge \neg F(x).$\\
+(All parents of $x$ are parents of $y$ and vice-versa and $x$ is not a female.)\\
+(ii) $\varphi_A(x, y) = F(x) \wedge \bigg(\forall z\big(P(z, y) \to \exists w [P(z, w) \wedge P(w, y)]\big)\bigg)$\\
+($x$ is a female and given any parent of $x,$ that parent is the grandparent of $y.$)\\
+(iii) $\varphi_C(x, y) = \forall g \forall p\big([P(g, p) \wedge P(p, x)] \to [\exists p' (P(g, p') \wedge P(p', y) \wedge \neg p = p')]\big).$\\
+(Note that I've assumed first cousin.)\\
+(iv) $\varphi_O(x) = \forall p \forall x'(P(p, x) \to x = x').$\\
+(If $p$ is a parent of $x$ and $x'$ is a human such that $p$ is a parent of $x',$ then $x$ and $x'$ must be the same.)\\
+(v) Guess - $\varphi_H(x, y)$ which says that ``$x$ is a husband of $y$'' cannot be defined.
+
+\hrulefill
+
+3.
+\[\forall n[(\operatorname{Even}(n) \wedge \neg \exists z (\operatorname{Zero}(z) \wedge z + 2 = n)) \to (\exists p \exists q(\operatorname{Prime}(p) \wedge \operatorname{Prime}(q) \wedge n = p + q))].\]
+
+\hrulefill
+
+4. Let $\mathcal{A}$ be a structure of $\tau.$ Let $c_\mathcal{A}$ denote the fixed element that is assigned to $c.$\\
+(A1) $\forall x\forall y\forall z[op(x, op(y, z)) = op(op(x, y), z)].$\\
+(A2) $\forall x(op(x, c_\mathcal{A}) = x).$\\
+(A3) $\forall x \exists y(op(x, y) = c_\mathcal{A}).$\\
+(A4) $\forall x\forall y\forall z[op(x, z) = op(y, z) \to x = y].$\\
+
+\hrulefill
+
+5. \\
+(i) Take the structure $\mathcal{A}$ whose universe just consists of $0.$ It trivially satisfies $\psi.$\\
+(ii) Let $\mathcal{A}$ be the structure with universe as $\{0, 1\}$ and $+$ defined as:
+\[0+0 = 0,\; 0+1 = 0, \; 1+0 = 0, \; 1+1=0.\]
+This clearly does not satisfy $\varphi_2.$\\
+(iii) No, that is not the case. For example, take $\mathcal{A}$ whose universe consists of all $2\times2$ invertible matrices with real entries with $+$ defined to multiplication and $0$ to be the identity element. Then, it is clear that this $\mathcal{A}$ satisfies $\psi$ but not $\alpha$ as there exist invertible matrices which do not commute.\\
+A simpler (but more abstract) is the $S_3$ group. You may look it up.\\
+(iv) (a) Let $\mathcal{A} = \{0,\;1\}$ and let $+$ be defined as
+\[0+0 = 0,\; 0+1 = 1, \; 1+0 = 1, \; 1+1=1.\]
+This satisfies $\varphi_1 \wedge \varphi_2$ but not $\psi.$\\
+(b) Let $\mathcal{A} = \{0,\;1,\;2\}$ and let $+$ be defined as
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+	\hline
+	+ & 0 & 1 & 2 \\
+	\hline
+	0 & 0 & 1 & 2 \\
+	\hline
+	1 & 1 & 0 & 1 \\
+	\hline
+	2 & 2 & 1 & 0 \\
+	\hline  
+	\end{tabular}
+\end{center}
+Then, $\mathcal{A}$ satisfies $\varphi_2 \wedge \varphi_3$ but not $\psi$ as $1 + (1 + 2) = 1 + 1 = 0 \neq 2 = 0 + 2 = (1 + 1) + 2.$\\
+(c) Let $\mathcal{A}$ be the structure with universe as $\{0, 1\}$ and $+$ defined as:
+\[0+0 = 0,\; 0+1 = 0, \; 1+0 = 0, \; 1+1=0.\]
+This satisfies $\varphi_1 \wedge \varphi_3$ but not $\psi.$
+
+\hrulefill
+
+7. Let the structure be $\mathcal{G}$ with $u(\mathcal{G}) = \{1, 2\}.$ And $E^\mathcal{G} = \{(1, 1), (1, 2), (2, 1)\}.$\\
+This satisfies the latter but not the former. \\
+It does not satisfy the former as one can take $x = 2,$ then no matter what $y$ is, $z$ takes all possible values. In particular, $z$ takes the value $2.$ As $(2, 2) \notin E^\mathcal{G},$ we have it that $E(x, z)$ is not true. Thus, the former sentence is not true.\\
+For the latter sentence, choose $x = 1.$ For $y = 1,$ choose $z = 1$ and for $y = 2,$ choose $z = 1.$ Thus, we are done.
+
+\hrulefill
+
+6. The above example illustrates the difference.
+
+\hrulefill
+
+8. (a) $\varphi_{45} = (\exists^{\ge45}x (x = x)) \wedge \neg(\exists^{\ge46}x(x \neq x)).$\\
+
+(b) $\forall x_1 \forall x_2 \ldots \forall x_{n-1} \exists x_n (x_n = x_n \wedge x_n \neq x_{n-1} \wedge x_n \neq x_{n-2} \wedge \cdots \wedge x_n \neq x_2 \wedge x_n \neq x_1).$\\
+
+
+\hrulefill
+
+9. By 8. (b), we have shown that $\exists^{\ge n}$ can actually be written as a FO formula. Thus, we can use it freely. So, the answer is simply $(\exists^{\ge n}x (x = x)) \wedge \neg(\exists^{\ge (m+1)}x(x \neq x)).$
+
+\end{document}
