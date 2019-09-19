@@ -8,5 +8,5 @@ Files of interest in this repository -
 
 ---
 
-Please note that I'm doing this purely out of interest and do not take responsibility of the correctness of the solutions posted.  
+Please note that I'm doing this purely out of interest and do not take responsibility for the correctness of the solutions posted.  
 You may [contact me](mailto:aryamanmaithani@gmail.com) if you think that there's an error.
