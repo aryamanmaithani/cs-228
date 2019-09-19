@@ -55,10 +55,10 @@ Also, given $y = 0 \in \mathbb{N},$ and given any $x \in \mathbb{N},$ it not tru
 3.\\
 (i) $\operatorname{Zero}(a) = \forall z[a + z = z] \equiv \exists z[a + z = z].$\\
 (ii) $\operatorname{One}(a) = \forall z[a \times z = z].$\\
-Note that in this case, the above is not equivalent to the formula obtained for replacing `$\forall$' with `$\exists$.' \hfill (Why?)\\
+Note that in this case, the above is not equivalent to the formula obtained by replacing `$\forall$' with `$\exists$.' \hfill (Why?)\\
 (iii) $\operatorname{Even}(a) = \exists z[z + z = a].$\\
 (iv) $\operatorname{Odd}(a) = \neg \operatorname{Even}(a).$\\
-(v) $\operatorname{Prime}(a) = \neg \operatorname{One}(a) \wedge \forall x\forall y[(x \times y = a) \to (\operatorname{One}(x) \wedge \operatorname{One}(y))]$\\
+(v) $\operatorname{Prime}(a) = \neg \operatorname{One}(a) \wedge \forall x\forall y[(x \times y = a) \to (\operatorname{One}(x) \vee \operatorname{One}(y))]$\\
 (vi) Before tackling Goldbach's conjecture, let us first define the following formula:\\
 $\operatorname{Two(a)} = \exists z[\operatorname{One}(z) \wedge z + z = a].$
 \[\forall n[(\operatorname{Even}(n) \wedge \neg \operatorname{Zero}(n) \wedge \neg \operatorname{Two}(n)) \to (\exists p \exists q(\operatorname{Prime}(p) \wedge \operatorname{Prime}(q) \wedge n = p + q))].\]
