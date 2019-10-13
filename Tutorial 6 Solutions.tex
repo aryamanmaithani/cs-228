@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage[inline]{enumitem}
+\usepackage{cancel}
+\usepackage{soul}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{defn}{Definition}
+\let\emptyset\varnothing
+\setlength\parindent{0pt}
+
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+
+\title{CS 228: Tutorial Solutions}
+\author{Aryaman Maithani}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+\textbf{Problem Set 6}
+\end{center}
+\begin{enumerate}[label = \arabic*.] 
+	\item 
+	\begin{enumerate}[label = (\alph*)] 
+		\item Let the language of all reversed strings be denoted by $R(L(A)).$ We claim that $R(L(A))$ is indeed regular.\\
+		To show this, consider the new automaton $A'$ obtained from $A$ by making every final state as initial and making the initial state final. Moreover, we reverse all the arrows of $A.$\\
+		For formally, if $A$ was equal to $(Q, \Sigma, \delta, q_0, F),$ then $A' = (Q, \Sigma, \delta', F, \{q_0\})$ where $\delta':Q\times\Sigma\to2^{Q}$ is defined as: 
+		\[\delta'(q, a) = Q_a \text{ where } Q_a = \{q' \in Q : \delta(q', a) = q\}.\]\\
+		Thus, $A'$ is an NFA and the language accepted by $A'$ is precisely $R(L(A)).$ As languages accepted by NFAs are regular, we are done.\\
+		We don't need to prove that $L(A') = R(L(A))$ in this course but let us see a proof anyway.\\~\\
+		\emph{Proof.}
+			Suppose $w$ is a word that has a run in $A$ from the state $q_0$ to $q_f.$ We now show that the reverse of $w$ has a run in $A'$ from any set of states containing $q_f$ to a set of states containing $q_0$ such that this run accepted the reverse of $w.$ \\
+			We shall show this by induction on the length of the word $w.$\\~\\
+			Base case: $|w| = 0.$ In this case, we get that $q_0 = q_f.$ It is easy to conclude the result as any set containing $q_f$ does contain $q_0.$ Moreover, the only word of length $0$ is $\epsilon$ which is indeed its own reverse. \\~\\
+			Inductive hypothesis: Whenever $w$ is a word with $|w| \le n$ $(n \ge 0)$ such that $w$ has a run from the state $q_0$ to $q_f$ in $A,$ then reverse of $w$ has a run in $A'$ from any set of states containing $q_f$ to a set of states containing $q_0$ such that this run accepted the reverse of $w.$\\~\\
+			Inductive step: Suppose $w$ is a word such that $|w| = n + 1.$ Let $q_f = \hat{\delta}(q_0, w)$ be the final set of $w$ in $A.$ By definition of $\hat{\delta},$ this means that there is a run from $q_0$ to $q_f$ that gives $w.$ Now we wish to show that there exists a run in $A'$ from any set of states containing $q_f$ to a set of states containing $q_0$ such that the run accepts the reverse of $w.$ \\
+			Now, consider the prefix of $w$ of length $n.$ Let this be $w'.$ Let the last letter of $w$ be denoted by $\alpha.$ Then, note that we have $\delta(\hat{\delta}(q_0, w'), \alpha) = q_f.$\\
+			Then, by our definition of $\delta',$ we get that $\hat{\delta}(q_0, w') \in \delta'(q_f, \alpha).$\\
+			Now, consider the state $\hat{\delta}(q_0, w').$ $w'$ has a run in $A$ from $q_0$ to $\hat{\delta}(q_0, w'),$ by definition of $\hat{\delta}.$ Thus, by our inductive hypothesis, there is a run from $\delta'(q_f, \alpha)$ to a set containing $q_0$ such that this run accepts the reverse of $w'.$ Also, observe that reverse of $w'$ is just $\alpha$ concatenated with reverse of $w'.$\\
+			Thus, we have shown that there is a run from $q_f$ to a set containing $\hat{\delta}(q_0, w')$ (accepting $\alpha$) from which there is a run to $q_0$ accepted $w'.$ This completes our induction.\\~\\
+		Now, let $w$ be any word accepted by $A.$ Then $w$ has a run starting at $q_0$ and ending at some state $q_f \in F.$ Then, by our construction of $A',$ we get that $\{q_0\}$ is the set of final states and $q_f$ is in the initial set of states. By our previous result, we get that reverse of $w$ is accepted by $A'.$\\~\\
+		Now, we must show that any word accepted by $A'$ is indeed in $R(L(A)).$ I leave this to the reader.\\~\\
+		%
+		\item We shall assume that a language accepted by an $\epsilon-$NFA is regular.\\
+		$L$ is given to be a regular language. Thus, there exists a DFA $A$ that accept $L$ as its language.\\
+		Suppose $A = (Q, \Sigma, \delta, q_0, F).$\\
+		Consider the $\epsilon-$NFA given by $A' = (Q, \Sigma', \delta', \{q_0\}, F)$ where $\Sigma' = (\Sigma\setminus\{a\})\cup\{\epsilon\}$ and $\delta':Q\times\Sigma'\to2^Q$ is defined as
+		\[\delta'(q, \alpha) := \left\{
+			\begin{array}{cc}
+				\{\delta(q, \alpha)\} & \text{ if }\alpha \neq \epsilon\\
+				\{\delta(q, a)\} & \text{ if }\alpha = \epsilon
+			\end{array}
+		\right.\]
+		Thus, $A'$ is the automaton obtained from $A$ by replacing every $a$ edge by an $\epsilon$ edge.\\
+		It is clear by construction that the language accepted by $A'$ is $L\downarrow\{b, c\}$ and hence, it is regular.
+		%
+		\item The idea is to construct a new automaton by connecting all the final states of the original automaton to a new state via an $\epsilon$ and making that as the only final state.\\
+		Formally, suppose $A = (Q, \Sigma, \delta, Q_0, F)$ is our original NFA.\\
+		Consider the new $\epsilon-$NFA $A' = (Q\cup\{q_f\}, \Sigma', \delta', Q_0, \{q_f\})$ where $\Sigma' = \Sigma\cup\{\epsilon\}$ and $\delta':Q\cup\{q_f\}\times\Sigma' \to 2^{Q\cup\{q_f\}}$ is defined as:
+		\[\delta'(q, \alpha) := \left\{
+			\begin{array}{cl}
+				\delta(q, \alpha) & \text{ if }  \alpha \neq \epsilon\\
+				\emptyset & \text{ if } \alpha = \epsilon\text{ and }q \notin F  \\
+				\{q_f\} & \text{ if } \alpha = \epsilon \text{ and } q \in F 
+			\end{array}		
+		\right.\]
+		(Note that the second line of definition is basically saying that I don't want any new $\epsilon$ edges from non-final states. It is still important to put that from a mathematical point of view.)\\
+		It is easy to see that this $\epsilon-$NFA does accept the same language as the original automaton. \hfill (Proof?)
+		\item No, it is not. We shall prove this with a minimal counterexample. Consider $Q = \{q_0\},\;\Sigma = \{a\},\;\delta:Q\times\Sigma\to Q, F = \emptyset.$ $\delta$ is defined as $\delta(q_0, a) = q_0.$ \hfill (Obviously. (Why obviously?))\\
+		Consider the automaton $N = (Q, \Sigma, \delta, q_0, F).$ It is clear that $L(N) = \emptyset$ as there is no final state. (Note that is \textbf{not} $\{\epsilon\}.$)\\
+		However, if we consider $N_1$ as defined in the question, then we see that $L(N_1) = a^*.$\\
+		Thus, $L(N_1) \neq (L\left(N\right))^* = \emptyset.$
+		%
+		\item Since $L$ is given to be a regular language, there exists an automaton $A$ accepting it.\\
+		Let $A = (Q, \Sigma, \delta, q_0, F)$ be the formal description.\\
+		Let $Q' = Q \times Q,\; \Sigma' = \Sigma,\;Q_0 = \{q_0\}\times F.$\\
+		Moreover, define $F' = \{(q,\;q) : q \in Q\}$ and $\delta':Q'\times\Sigma'\to2^{Q'}$ as follows:
+		\[\delta'\left((q_1, q_2), a\right) := \{\delta(q_1, a)\}\times Q_a\]
+		\[\text{where } Q_a = \{q \in Q : \exists b \in \Sigma \text{ such that } \delta(q, b) = q_2\}\]
+		Now, consider the automaton $A' = (Q', \Sigma', \delta', Q_0, F').$\\
+		The language accepted by $A'$ is precisely $L_{\frac{1}{2}}.$\\~\\
+		The reason this works is because intuitively - we are approaching the middle of a word from the beginning and the end (that's why our $Q_0$ was $\{q_0\}\times F$) and we accept a word once we reach a common state. (That's why our $F'$ is the set of all $(q, q)$ as this means that we've reached a common point from both ends.)
+	\end{enumerate}
+	\item Let us first note a few things. \\
+	For integers $a$ and $b,$ let $a  \operatorname{mod} b$ denote the (positive) remainder left when $a$ is divided by $b.$\\
+	As an example, $16  \operatorname{mod} 9 = 7.$\\
+	Suppose an integer $n \ge 1$ is given. We claim that the sequence
+	\[2^0  \operatorname{mod} n,\;2^1  \operatorname{mod} n,\;2^2  \operatorname{mod} n,\;\ldots\]
+	is eventually periodic.\\
+	For example, if $n = 3,$ then the above sequence is $1,2,1,2\ldots.$ If $n = 4,$ then it is $1, 2, 0, 0,\ldots.$ If $n = 5,$ then it is $1, 2, 4, 3, 1, 2, 4, 3,\ldots.$\\
+	The reason that this happens is that there are at most $n$ distinct remainders, thus a value must occur twice. If that happens, then the values after that are also fixed.\\~\\
+	To form a binary string, our language must be $\{0,1\}.$ It makes sense to keep a track of the remainder in order to determine whether the number formed is a multiple of $n.$\\
+	To achieve this, let us think of states as tuples of numbers of the form $\dbinom{a}{b}$ where $a$ will keep track of the remainder of the number formed so far and $b$ will keep track of the remainder of power of $2$ at that stage.\\
+	Thus, we have $n^2$ states as $a$ and $b$ can possibly take all integer values in $[0, n].$\\
+	Given a state $\dbinom{a}{b},$ we need two outgoing edges from it, one for $0$ and one for $1.$ By our construction, it is easy to see that it the $0$ edge will take us to $\dbinom{a}{2b  \operatorname{mod} n}$ and the $1$ edge will take us to $\dbinom{(a + b)  \operatorname{mod} n}{b  \operatorname{mod} n}.$\\~\\
+	Now, for our initial state, we define a new dummy state such that the $0$ edge from that state takes us to $\dbinom{0}{0}$ and $1$ edge takes us to $\dbinom{1  \operatorname{mod} n}{1  \operatorname{mod} n}.$\\~\\
+	Thus, we now have a finite set of states with the transition function defined and hence, we have a DFA. This gives us that $L_n$ is regular.\\
+	Note that this DFA will accept multiples of $n$ interpreted in reverse. That is, for $n = 4,$ it will accept $001$ which is the reverse of $4$ written in binary but it won't accept $100.$\\
+	But even if we do want to accept it the right way forward, part (a) tells us that the language is still regular.\\~\\
+	Draw this for $n = 3$ to see how it's actually working.
+	%
+	\item It is clear that if a language $L$ is regular, then there is an NFA with the devilish acceptance that does accept it. Namely, any DFA accepting $L$ is also (essentially) an NFA with the devilish acceptance and we know that \emph{a} DFA must exist by definition of being regular.\\
+	The reason we write ``essentially'' is because formally, there is a slight difference.\\
+	Namely, if $A = (Q, \Sigma, \delta, q_0, F)$ is the DFA, then the corresponding NFA is $A ' = (Q, \Sigma, \delta', \{q_0\}, F)$ where $\delta':Q\times\Sigma\to2^Q$ is defined as $\delta'(q, a) = \{\delta(q, a)\}.$\\~\\
+	Now, to prove the converse, let $A$ be a NFA. We shall now construct a DFA $A'$ that accepts the same language accepted by the NFA with the devilish acceptance.\\
+	Let $A = (Q, \Sigma, \delta, Q_0, F)$ be the formal definition of $A.$ Consider $Q' = 2^Q$ and $F' = 2^F \setminus \{\emptyset\}.$ Thus, we now have that $Q_0 \in Q'$ and $F' \subset Q'.$\\
+	Also, let us define $\delta':Q'\times\Sigma\to Q'$ as:
+	\[\delta'(X, a) := \bigcup_{q \in X}\delta(q, a).\]
+	(Check that this actually makes sense.)
+	Thus, the automaton $A'$ given by the description $(Q', \Sigma, \delta', Q_0, F')$ is a DFA. Moreover, by construction, the final states only consist of those subsets of $Q$ in which every state is a final state. Moreover, by removing $\emptyset,$ we have also ensured that there indeed is \emph{a} state.\\
+	(The construction is almost identical to what we did in class when we converted an angelic NFA to a DFA. Only the final states have been slightly modified to account for devilish condition.)\\
+	Thus, we have now shown that any language accepted by a DFA is indeed regular.
+	%
+	\item Since $L$ is given to be a regular language, there exists an automaton $A$ accepting it.\\
+	Let $A = (Q, \Sigma, \delta, q_0, F)$ be the formal description.\\
+	We shall now construct an automaton accepting $L'$ by simply removing the outgoing edges from any final state. We can do this by either creating a new DFA with a trap state or make our life simpler by simply considering an NFA.\\
+	However, one mustn't always go for shortcuts and hence, we shall construct a new DFA.\\
+	Define $Q' = Q \cup \{q'\}$ and $\delta':Q\times\Sigma\to Q$ as
+	\[\delta'(q, \alpha) :=
+	\left\{
+		\begin{array}{c l}
+			\delta(q, \alpha) & \text{ if }q \notin F\cup\{q'\}\\
+			q' & \text{ if } q \in F \cup \{q'\}\\
+		\end{array}
+	\right.\]
+	Then, our required DFA is simply $A' = (Q', \Sigma, \delta', q_0, F).$\\
+	Now, let that argue that $L(A') = L'.$\\
+	Suppose $w \in L(A').$ Then, at no point during \emph{\textbf{the}} run of $w$ in $A'$ were we at a final state. This is because the only outgoing edges from any final state are to the trap state. As the final states of $A$ and $A'$ coincide, we get that no proper prefix of $w$ is accepted by $A.$ Thus, $w \in L'.$ Hence, we have shown that $L(A') \subset L'.$\\
+	Conversely, suppose that $w \in L'.$ Then, the only stage at which we come across a final state in the run of $w$ in $A$ is at the final stage. Thus, we never traverse any outgoing edge from any final state. As all such edges are preserved in $A'$ as well, we get that $w \in L(A')$ and hence $L' \subset L(A').$\\
+	Thus, we have shown that $L(A') = L.$\\~\\
+	At this point I should mention that it probably was easier to make a DFA rather the NFA as formally writing an NFA is actually more troublesome. Moreover, the argument was actually easier to write as we could talk about ``\textbf{\emph{the}}'' run of a word in $A'$ since it was deterministic which gave us a unique run.
+\end{enumerate}
+\end{document}
