@@ -138,5 +138,20 @@
 	Conversely, suppose that $w \in L'.$ Then, the only stage at which we come across a final state in the run of $w$ in $A$ is at the final stage. Thus, we never traverse any outgoing edge from any final state. As all such edges are preserved in $A'$ as well, we get that $w \in L(A')$ and hence $L' \subset L(A').$\\
 	Thus, we have shown that $L(A') = L.$\\~\\
 	At this point I should mention that it probably was easier to make a DFA rather the NFA as formally writing an NFA is actually more troublesome. Moreover, the argument was actually easier to write as we could talk about ``\textbf{\emph{the}}'' run of a word in $A'$ since it was deterministic which gave us a unique run.
+	%
+	\item Let $S_{n-1}$ denote the prefixes of length $n-1$ of the words that are in $L_n.$ That is, $S_{n-1} = \{w \in \Sigma^* : |w| = n-1 \text{ and } wy \in L_n \text{ for some } y \in \Sigma^* \}.$\\
+	Let $A$ be a DFA accepting $L_n.$ \footnote{It is easy to see that \emph{a} DFA does exist as it's easy to construct an NFA accepting $L_n.$}\\
+	We claim that if $x, y \in S_{n-1}$ such that $x \neq y,$ then $\hat{\delta}(q_0, x) \neq \hat{\delta}(q_0, y),$ where $\hat{\delta}$ and $q_0$ have their usual meanings.\\
+	That is, we are claiming that the runs of $x$ and $y$ will land us at different states.\\
+	\begin{proof}
+		Let $x, y \in S_{n-1}$ be given such that $x \neq y.$\\
+		Then, $x$ and $y$ differ at some position $i$ where $1 \le i \le n-1.$ Let $i$ be the biggest such integer. (That is, $x$ and $y$ must agree at every position from $i$ onwards.) \\
+		Without loss of generality, assume that $x$ has a $0$ at position $i$ and $y$ has a $1.$\\
+		Consider the words $\bar{x} = x0^{i}$ and $\bar{y} = y0^{i}.$ That is, the words obtained by appending $i$ $0$s at the end of $x$ and $y.$ Thence, $\bar{x}$ and $\bar{y}$ are of lengths $n + i - 1.$\\
+		Now, if we consider the digit at the $n^{\text{th}}$ position from the right in $\bar{x},$ we get a $0.$ On the other hand, we get a $1$ for $\bar{y}.$ Thus, $\bar{y}$ is accepted by $A$ while $\bar{x}$ is not $A.$ Or more simply, $\bar{x}$ and $\bar{y}$ must end in different states. \\
+		Now, by our assumption, we had that $x$ and $y$ ended at the same state. As $\bar{x}$ and $\bar{y}$ were obtained by adding $i$ extra zeros at the end, we get that $\bar{x}$ and $\bar{y}$ end up at the same state since $A$ is deterministic, a contradiction.\\
+	\end{proof}
+	Thus, we get that the number of states is at least $|S_{n-1}|.$ Now, we claim that $|S_{n-1}| = 2^{n-1}.$ If we are able to show this, then our proof will be complete.\\
+	This is easy to show as there are $2^{n-1}$	possible words of length $n-1.$ Moreover, all of these will actually be the prefix of a word in $L_n.$ Just consider the word obtained by appending a $1$ followed by $n-1$ $0$s.
 \end{enumerate}
 \end{document}
